@@ -57,5 +57,5 @@ A grade management system that can:
 
 | Project | Description | Tech | Status |
 |---------|-------------|------|--------|
-| [🧮 Calculator](https://kimiti4.github.io/iyf-s10-week-04-Kimiti4/calculator.html) | Interactive web calculator with +, −, ×, ÷, %, ^ | HTML/CSS/JS | ✅ Complete |
+| [🧮 Calculator](https://github.com/Kimiti4/iyf-s10-week-04-Kimiti4/main/calculator.html) | Interactive web calculator with +, −, ×, ÷, %, ^ | HTML/CSS/JS | ✅ Complete |
 | [📊 Grade Tracker](https://kimiti4.github.io/iyf-s10-week-04-Kimiti4/grade-tracker.html) | Student grade management with reports & analytics | HTML/CSS/JS | ✅ Complete |
