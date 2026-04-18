@@ -55,7 +55,31 @@ A grade management system that can:
 
 ## 🚀 Live Projects
 
-| Project | Description | Tech | Status |
-|---------|-------------|------|--------|
-| [🧮 Calculator](https://github.com/Kimiti4/iyf-s10-week-04-Kimiti4/main/calculator.html) | Interactive web calculator with +, −, ×, ÷, %, ^ | HTML/CSS/JS | ✅ Complete |
-| [📊 Grade Tracker](https://kimiti4.github.io/iyf-s10-week-04-Kimiti4/grade-tracker.html) | Student grade management with reports & analytics | HTML/CSS/JS | ✅ Complete |
+<!-- 🔹 Tech Stack Badges -->
+<p align="center">
+  <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black&style=for-the-badge" alt="JavaScript">
+  <img src="https://img.shields.io/badge/HTML5-5.0-E34F26?logo=html5&logoColor=white&style=for-the-badge" alt="HTML5">
+  <img src="https://img.shields.io/badge/CSS3-3.0-1572B6?logo=css3&logoColor=white&style=for-the-badge" alt="CSS3">
+  <img src="https://img.shields.io/badge/GitHub_Pages-🚀-222222?logo=github&logoColor=white&style=for-the-badge" alt="GitHub Pages">
+</p>
+
+<!-- 🔹 Status & Quality Badges -->
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-✅_Complete-brightgreen?style=for-the-badge" alt="Status">
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/badge/Version-1.0.0-informational?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge" alt="Build">
+</p>
+
+<!-- 🔹 Interactive Badges (clickable) -->
+<p align="center">
+  <a href="https://kimiti4.github.io/iyf-s10-week-04-Kimiti4/calculator.html" target="_blank">
+    <img src="https://img.shields.io/badge/🧮_Live_Demo-Calculator-3b82f6?style=for-the-badge&logo=calculator" alt="Calculator Demo">
+  </a>
+  <a href="https://kimiti4.github.io/iyf-s10-week-04-Kimiti4/grade-tracker.html" target="_blank">
+    <img src="https://img.shields.io/badge/📊_Live_Demo-Grade_Tracker-10b981?style=for-the-badge&logo=google-sheets" alt="Grade Tracker Demo">
+  </a>
+  <a href="https://github.com/Kimiti4/iyf-s10-week-04-Kimiti4" target="_blank">
+    <img src="https://img.shields.io/badge/📁_View_Source-Code-6366f1?style=for-the-badge&logo=github" alt="View Source">
+  </a>
+</p>
