@@ -55,22 +55,6 @@ A grade management system that can:
 
 ## 🚀 Live Projects
 
-<!-- 🔹 Tech Stack Badges -->
-<p align="center">
-  <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black&style=for-the-badge" alt="JavaScript">
-  <img src="https://img.shields.io/badge/HTML5-5.0-E34F26?logo=html5&logoColor=white&style=for-the-badge" alt="HTML5">
-  <img src="https://img.shields.io/badge/CSS3-3.0-1572B6?logo=css3&logoColor=white&style=for-the-badge" alt="CSS3">
-  <img src="https://img.shields.io/badge/GitHub_Pages-🚀-222222?logo=github&logoColor=white&style=for-the-badge" alt="GitHub Pages">
-</p>
-
-<!-- 🔹 Status & Quality Badges -->
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-✅_Complete-brightgreen?style=for-the-badge" alt="Status">
-  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/Version-1.0.0-informational?style=for-the-badge" alt="Version">
-  <img src="https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge" alt="Build">
-</p>
-
 <!-- 🔹 Interactive Badges (clickable) -->
 <p align="center">
   <a href="https://kimiti4.github.io/iyf-s10-week-04-Kimiti4/calculator.html" target="_blank">
