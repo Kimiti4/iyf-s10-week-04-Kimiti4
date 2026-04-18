@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Calculator</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --calc-bg: #1e1e1e;
+            --display-bg: #2a2a2a;
+            --btn-bg: #333;
+            --btn-hover: #444;
+            --btn-op: #ff9f0a;
+            --btn-op-hover: #ffb03b;
+            --text: #fff;
+            --text-secondary: #aaa;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        .calculator {
+            width: 320px;
+            background: var(--calc-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .display {
+            background: var(--display-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: right;
+        }
+        .previous-operand { color: var(--text-secondary); font-size: 0.9rem; min-height: 1.2rem; }
+        .current-operand { font-size: 2rem; font-weight: 500; word-wrap: break-word; }
+        
+        .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: var(--btn-bg);
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        button:hover { background: var(--btn-hover); }
+        button:active { transform: scale(0.95); }
+        .btn-op { background: var(--btn-op); color: #000; font-weight: 600; }
+        .btn-op:hover { background: var(--btn-op-hover); }
+        .btn-wide { grid-column: span 2; }
+        .btn-clear { background: #ff4757; color: white; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display">
+            <div class="previous-operand" id="previousOperand"></div>
+            <div class="current-operand" id="currentOperand">0</div>
+        </div>
+        <div class="buttons">
+            <button class="btn-clear" data-action="clear">AC</button>
+            <button data-action="delete">⌫</button>
+            <button class="btn-op" data-action="operator" data-value="%">%</button>
+            <button class="btn-op" data-action="operator" data-value="/">÷</button>
+            
+            <button data-number>7</button><button data-number>8</button><button data-number>9</button><button class="btn-op" data-action="operator" data-value="*">×</button>
+            <button data-number>4</button><button data-number>5</button><button data-number>6</button><button class="btn-op" data-action="operator" data-value="-">−</button>
+            <button data-number>1</button><button data-number>2</button><button data-number>3</button><button class="btn-op" data-action="operator" data-value="+">+</button>
+            <button data-number>0</button><button data-number>.</button><button class="btn-op" data-action="operator" data-value="**">^</button><button class="btn-op" data-action="equals">=</button>
+        </div>
+    </div>
+
+    <script>
+        // 🔹 Core Logic (Matches original requirements)
+        const operations = {
+            '+': (a, b) => a + b,
+            '-': (a, b) => a - b,
+            '*': (a, b) => a * b,
+            '/': (a, b) => b === 0 ? 'Cannot divide by zero' : a / b,
+            '%': (a, b) => a % b,
+            '**': (a, b) => a ** b
+        };
+
+        function calculate(num1, operator, num2) {
+            if (!operations[operator]) return 'Invalid operator';
+            return operations[operator](num1, num2);
+        }
+
+        // 🔹 UI State & DOM Elements
+        let currentOperand = '0';
+        let previousOperand = '';
+        let operation = null;
+
+        const currentDisplay = document.getElementById('currentOperand');
+        const previousDisplay = document.getElementById('previousOperand');
+
+        function updateDisplay() {
+            currentDisplay.textContent = currentOperand;
+            previousDisplay.textContent = previousOperand;
+        }
+
+        function appendNumber(number) {
+            if (number === '.' && currentOperand.includes('.')) return;
+            if (currentOperand === '0' && number !== '.') currentOperand = number;
+            else currentOperand += number;
+        }
+
+        function chooseOperator(op) {
+            if (currentOperand === '') return;
+            if (previousOperand !== '') {
+                currentOperand = String(calculate(parseFloat(previousOperand), operation, parseFloat(currentOperand)));
+            }
+            operation = op;
+            previousOperand = currentOperand;
+            currentOperand = '';
+            updateDisplay();
+            previousDisplay.textContent = `${previousOperand} ${op}`;
+        }
+
+        function compute() {
+            if (previousOperand === '' || currentOperand === '' || !operation) return;
+            const result = calculate(parseFloat(previousOperand), operation, parseFloat(currentOperand));
+            currentOperand = String(result);
+            operation = null;
+            previousOperand = '';
+            updateDisplay();
+        }
+
+        // 🔹 Event Listeners
+        document.querySelectorAll('[data-number]').forEach(btn => {
+            btn.addEventListener('click', () => appendNumber(btn.textContent));
+        });
+
+        document.querySelectorAll('[data-action="operator"]').forEach(btn => {
+            btn.addEventListener('click', () => chooseOperator(btn.dataset.value));
+        });
+
+        document.querySelector('[data-action="equals"]').addEventListener('click', compute);
+        document.querySelector('[data-action="clear"]').addEventListener('click', () => {
+            currentOperand = '0'; previousOperand = ''; operation = null;
+            updateDisplay(); previousDisplay.textContent = '';
+        });
+        document.querySelector('[data-action="delete"]').addEventListener('click', () => {
+            currentOperand = currentOperand.slice(0, -1) || '0';
+            updateDisplay();
+        });
+
+        // Keyboard support
+        document.addEventListener('keydown', e => {
+            if (e.key >= '0' && e.key <= '9') appendNumber(e.key);
+            else if (e.key === '.') appendNumber('.');
+            else if (['+','-','*','/','%','^'].includes(e.key)) chooseOperator(e.key === '^' ? '**' : e.key);
+            else if (e.key === 'Enter' || e.key === '=') compute();
+            else if (e.key === 'Escape') document.querySelector('[data-action="clear"]').click();
+            else if (e.key === 'Backspace') document.querySelector('[data-action="delete"]').click();
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>

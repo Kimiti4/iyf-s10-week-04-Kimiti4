@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Tracker</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 2rem; }
+        
+        .container { max-width: 1000px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 2rem; }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-light); }
+
+        .card { background: var(--card); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
+        
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        input { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; }
+        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+        
+        .btn { background: var(--primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer; font-size: 1rem; transition: 0.2s; }
+        .btn:hover { background: var(--primary-dark); }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: #f1f5f9; font-weight: 600; color: var(--text-light); }
+        tr:hover { background: #f8fafc; }
+        
+        .badge { padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 500; }
+        .badge-A { background: #dcfce7; color: #166534; }
+        .badge-B { background: #dbeafe; color: #1e40af; }
+        .badge-C { background: #fef3c7; color: #92400e; }
+        .badge-D { background: #ffedd5; color: #9a3412; }
+        .badge-F { background: #fee2e2; color: #991b1b; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .stat-box { background: var(--card); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--primary); }
+        .stat-box h3 { color: var(--text-light); font-size: 0.85rem; margin-bottom: 0.25rem; }
+        .stat-box p { font-size: 1.25rem; font-weight: 600; }
+        
+        .report { display: none; margin-top: 0.5rem; padding: 1rem; background: #f8fafc; border-radius: 6px; font-size: 0.9rem; line-height: 1.5; }
+        .report.visible { display: block; animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .actions button { background: none; border: 1px solid var(--border); padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; margin-right: 0.5rem; font-size: 0.8rem; }
+        .actions button:hover { background: #f1f5f9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Student Grade Tracker</h1>
+            <p class="subtitle">Track performance, calculate averages, and generate report cards</p>
+        </header>
+
+        <div class="card">
+            <h2>Add New Student</h2>
+            <form id="studentForm">
+                <div class="form-grid">
+                    <input type="text" id="nameInput" placeholder="Student Name" required>
+                    <input type="number" id="mathInput" placeholder="Math (0-100)" min="0" max="100" required>
+                    <input type="number" id="engInput" placeholder="English (0-100)" min="0" max="100" required>
+                    <input type="number" id="sciInput" placeholder="Science (0-100)" min="0" max="100" required>
+                </div>
+                <button type="submit" class="btn">➕ Add Student</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Student Records</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Math</th>
+                        <th>English</th>
+                        <th>Science</th>
+                        <th>Average</th>
+                        <th>Grade</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTable"></tbody>
+            </table>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box"><h3>Class Average</h3><p id="classAvg">0</p></div>
+            <div class="stat-box"><h3>Top Performer</h3><p id="topStudent">-</p></div>
+            <div class="stat-box"><h3>Needs Support</h3><p id="strugglingCount">0</p></div>
+            <div class="stat-box"><h3>Total Students</h3><p id="totalStudents">0</p></div>
+        </div>
+    </div>
+
+    <script>
+        // 🔹 Core Logic (Preserved from original lesson)
+        const gradeTracker = {
+            students: [],
+            
+            addStudent(name, grades) {
+                this.students.push({ name, grades });
+            },
+            getStudent(name) {
+                return this.students.find(s => s.name.toLowerCase() === name.toLowerCase()) || null;
+            },
+            getStudentAverage(name) {
+                const student = this.getStudent(name);
+                if (!student) return null;
+                const scores = Object.values(student.grades);
+                return scores.reduce((sum, s) => sum + s, 0) / scores.length;
+            },
+            getSubjectAverage(subject) {
+                const scores = this.students.filter(s => subject in s.grades).map(s => s.grades[subject]);
+                return scores.length ? scores.reduce((sum, s) => sum + s, 0) / scores.length : 0;
+            },
+            getTopStudent() {
+                if (!this.students.length) return null;
+                return this.students.reduce((top, curr) => 
+                    this.getStudentAverage(curr.name) > this.getStudentAverage(top.name) ? curr : top
+                ).name;
+            },
+            getStrugglingStudents() {
+                return this.students.filter(s => this.getStudentAverage(s.name) < 70);
+            },
+            getLetterGrade(score) {
+                if (score >= 90) return 'A';
+                if (score >= 80) return 'B';
+                if (score >= 70) return 'C';
+                if (score >= 60) return 'D';
+                return 'F';
+            },
+            generateReportCard(name) {
+                const student = this.getStudent(name);
+                if (!student) return 'Student not found';
+                const avg = this.getStudentAverage(name).toFixed(1);
+                let report = `<strong>📄 Report Card: ${student.name}</strong><br>`;
+                for (const [subj, score] of Object.entries(student.grades)) {
+                    report += `${subj}: ${score} (${this.getLetterGrade(score)})<br>`;
+                }
+                return report + `<br><strong>Overall Average:</strong> ${avg}% | <strong>Final Grade:</strong> ${this.getLetterGrade(parseFloat(avg))}`;
+            }
+        };
+
+        // 🔹 UI Rendering & State
+        const tableBody = document.getElementById('studentsTable');
+        const form = document.getElementById('studentForm');
+
+        function renderTable() {
+            tableBody.innerHTML = '';
+            gradeTracker.students.forEach(student => {
+                const avg = gradeTracker.getStudentAverage(student.name);
+                const grade = gradeTracker.getLetterGrade(avg);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.name}</td>
+                    <td>${student.grades.math}</td>
+                    <td>${student.grades.english}</td>
+                    <td>${student.grades.science}</td>
+                    <td><strong>${avg.toFixed(1)}</strong></td>
+                    <td><span class="badge badge-${grade}">${grade}</span></td>
+                    <td class="actions">
+                        <button onclick="toggleReport('${student.name}')">📊 Report</button>
+                    </td>
+                `;
+                
+                // Report row
+                const reportRow = document.createElement('tr');
+                reportRow.id = `report-${student.name.replace(/\s/g, '-')}`;
+                reportRow.innerHTML = `<td colspan="7"><div class="report" id="reportContent-${student.name.replace(/\s/g, '-')}">${gradeTracker.generateReportCard(student.name)}</div></td>`;
+                tableBody.appendChild(row);
+                tableBody.appendChild(reportRow);
+            });
+            updateStats();
+        }
+
+        function updateStats() {
+            const classAvg = gradeTracker.students.length ? 
+                gradeTracker.students.reduce((sum, s) => sum + gradeTracker.getStudentAverage(s.name), 0) / gradeTracker.students.length : 0;
+            document.getElementById('classAvg').textContent = classAvg.toFixed(1) + '%';
+            document.getElementById('topStudent').textContent = gradeTracker.getTopStudent() || '-';
+            document.getElementById('strugglingCount').textContent = gradeTracker.getStrugglingStudents().length;
+            document.getElementById('totalStudents').textContent = gradeTracker.students.length;
+        }
+
+        window.toggleReport = function(name) {
+            const id = `reportContent-${name.replace(/\s/g, '-')}`;
+            document.getElementById(id).classList.toggle('visible');
+        };
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const name = document.getElementById('nameInput').value.trim();
+            const math = parseFloat(document.getElementById('mathInput').value);
+            const english = parseFloat(document.getElementById('engInput').value);
+            const science = parseFloat(document.getElementById('sciInput').value);
+            
+            gradeTracker.addStudent(name, { math, english, science });
+            renderTable();
+            form.reset();
+        });
+
+        // Preload demo data (matches lesson example)
+        gradeTracker.addStudent("Alice", { math: 95, english: 88, science: 92 });
+        gradeTracker.addStudent("Bob", { math: 72, english: 85, science: 78 });
+        gradeTracker.addStudent("Charlie", { math: 60, english: 65, science: 58 });
+        renderTable();
+    </script>
+</body>
+</html>
