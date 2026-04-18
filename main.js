@@ -1,11 +1,15 @@
-let name= "Your Name";
-let age= 25;
-const birthYear= 1998;
+// main.js - Variable Practice
+const myName = "Your Name";           // string
+let myAge = 25;                       // number
+const isStudent = true;              // boolean
+const favoriteColors = ["blue", "green", "purple"]; // array
+const today = new Date();            // Date object
 
-//typeof operator
-console.log(typeof name); // Output: string
-console.log(typeof age); // Output: number
-console.log(typeof true); // Output: boolean
+console.log(`Name: ${myName} (type: ${typeof myName})`);
+console.log(`Age: ${myAge} years (type: ${typeof myAge})`);
+console.log(`Student status: ${isStudent} (type: ${typeof isStudent})`);
+console.log(`Favorite colors: ${favoriteColors.join(', ')}`);
+console.log(`Today's date: ${today.toDateString()}`);
 
 //let vs const
 let score = 100;
@@ -34,19 +38,39 @@ console.log(typeof favoriteColor); // Output: object (arrays are a type of objec
 console.log(typeof dateToday); // Output: object (dates are also a type of object in JavaScript)    
 
 //Task 7.2
+// main.js - Number Operations
+
+// Basic math
 let a = 10;
 let b = 3;
- console.log(a+b);
-    console.log(a-b);
-    console.log(a*b);
-    console.log(a/b);
-    console.log(a%b);
-    console.log(a**b);
 
+console.log("🔢 Basic Operations:");
+console.log(`${a} + ${b} = ${a + b}`);   
+console.log(`${a} - ${b} = ${a - b}`); 
+console.log(`${a} * ${b} = ${a * b}`);  
+console.log(`${a} / ${b} = ${a / b}`);   
+console.log(`${a} % ${b} = ${a % b}`);   
+console.log(`${a} ** ${b} = ${a ** b}`); 
+
+// Increment/Decrement
+console.log("\n📈 Increment/Decrement:");
 let count = 0;
-count++;
-count--;    
-console.log(count); // Output: 0
+console.log(`Starting count: ${count}`);
+
+count++;  // Post-increment: returns old value, then adds 1
+console.log(`After count++: ${count}`);  // 1
+
+count--;  // Post-decrement: returns old value, then subtracts 1
+console.log(`After count--: ${count}`);  // 0
+
+// Pre-increment vs Post-increment demo
+let x = 5;
+let y = ++x;  // Pre-increment: x becomes 6 FIRST, then assigned to y
+console.log(`\nPre-increment: x=${x}, y=${y}`);  // x=6, y=6
+
+let m = 5;
+let n = m++;  // Post-increment: m assigned to n FIRST, then m becomes 6
+console.log(`Post-increment: m=${m}, n=${n}`);  // m=6, n=5
 
 //Exercise 2
 let firstName = "Amos";
@@ -57,9 +81,12 @@ let fullName2 = firstName + " " + lastName;
 //template literals
 let greeting = `Hello, ${firstName}!`;
 let message = `Your name has ${firstName.length} and ${lastName.length} characters.`;
-console.log(fullName2); // Output: Amos Kimiti
-console.log(greeting); // Output: Hello, Amos!
-console.log(message); // Output: Your name has 4 and 5 characters.
+console.log(fullName.toUpperCase());       // JOHN DOE
+console.log(fullName.toLowerCase());       // john doe
+console.log(firstName.charAt(0));          // J
+console.log(fullName.includes("John"));    // true
+console.log(fullName.split(" "));          // ["John", "Doe"]
+console.log(fullName.replace("Doe", "Smith")); // John Smith
 
 //Exercise 3
 console.log(5 > 3); // Output: true
